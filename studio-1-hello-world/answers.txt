@@ -1,0 +1,32 @@
+1.
+
+2. #include <stdio.h>
+
+3. fprintf takes a file stream as its first argument. printf does not.
+
+4. printf writes output to stdout. fprintf writes output to the stream you give it.
+
+5. Hello, world!
+
+6. Section 2
+
+7. #include <unistd.h>
+
+8.
+
+9.
+#include <unistd.h>
+
+int main(int argc, char* argv[]) {
+    write(STDOUT_FILENO, "Hello, world!\n", 14);
+    return 0;
+}
+
+10. Random characters showed up after "Hello, world!". write() doesn't know
+where the string ends, so it printed whatever bytes were in memory after it.
+
+11. I'd use a C library function when I want the code to work on any OS and
+want easy formatting. I'd use a system call when I need low-level control
+on a specific OS.
+
+12.
