@@ -1,0 +1,48 @@
+
+1.
+#include <unistd.h>
+#include <fcntl.h>
+
+#define bufferSize 200
+
+char buffer[bufferSize];
+
+int main(int argc, char *argv[]) {
+    int fd = open(argv[1], O_RDONLY);
+
+    while (1) {
+        ssize_t bytesRead = read(fd, buffer, bufferSize);
+        if (bytesRead == 0) {
+            break;
+        }
+        write(STDOUT_FILENO, buffer, bytesRead);
+    }
+
+    close(fd);
+    return 0;
+}
+
+2. Nothing printed and it just hung until I pressed Ctrl+C.
+
+3. Same thing, nothing printed and it hung until I pressed Ctrl+C.
+
+4. open() returns -1 if there's an error.
+
+5. if (fd == -1)
+
+6. perror("Error opening file");
+
+7.
+
+8. It printed "Error opening file: No such file or directory" and quit right away.
+
+9. It printed "Error opening file: Permission denied" and quit right away.
+
+10.
+open: returns -1 on error, sets errno
+close: returns -1 on error, sets errno
+read: returns -1 on error, sets errno
+write: returns -1 on error, sets errno
+printf: returns a negative value on error, sets errno
+
+11. First, you find out exactly what went wrong (like "Permission denied") instead of guessing. Second, the program quits cleanly instead of hanging or crashing like it did before.
