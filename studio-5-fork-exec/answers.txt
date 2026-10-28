@@ -1,0 +1,46 @@
+1.
+My PID is 43259
+My PID is 43260
+My PID is 43261
+
+2.
+My PID is 43665
+My PID is 43666
+
+3. On success, fork() returns the child's PID to the parent and 0 to the
+child. On failure, it returns -1 to the parent, no child is created,
+and errno is set.
+
+4.
+Parent: my PID is 43948
+Child: my PID is 43949
+
+5.
+Parent: my PID is 44253
+kaysar@Kaysars-MacBook-Pro-2 studio-5-fork-exec % Child: my PID is 44254
+
+No, it doesn't behave how I'd expect. The parent prints and exits right
+away, so the terminal prompt comes back. Then about 3 seconds later the
+child prints its line after the prompt, even though the program already
+looked finished. The parent didn't wait for the child.
+
+6.
+Child: my PID is 44502
+Parent: my PID is 44501
+
+Now the parent waits for the child to finish before printing. Nothing
+shows up for about 3 seconds, then the child prints, then the parent
+prints, and the prompt only comes back after both are done.
+
+7.
+total 96
+-rw-r--r--  1 kaysar  staff   5946 Oct 27 20:26 README.md
+-rwxr-xr-x@ 1 kaysar  staff  33640 Oct 27 20:39 fork
+-rw-r--r--@ 1 kaysar  staff    408 Oct 27 20:39 fork.c
+
+8.
+total 96
+-rw-r--r--  1 kaysar  staff   5946 Oct 27 20:26 README.md
+-rwxr-xr-x@ 1 kaysar  staff  33768 Oct 27 20:41 fork
+-rw-r--r--@ 1 kaysar  staff    515 Oct 27 20:40 fork.c
+Parent: my PID is 44778
