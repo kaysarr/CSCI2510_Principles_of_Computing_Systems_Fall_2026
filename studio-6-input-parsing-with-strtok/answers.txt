@@ -1,0 +1,46 @@
+1.
+Enter some text: hello
+hello
+
+2. On the first call to strtok() you pass the string you want to parse.
+On later calls that parse the same string, you pass NULL instead, and it
+keeps going from where it left off.
+
+3. A space " ", since words in normal text are separated by spaces.
+
+4.
+Enter some text: testing
+testing
+
+5.
+Enter some text: what time is it
+what
+time
+is
+it
+
+6.
+input[strcspn(input, "\n")] = '\0';
+
+7.
+
+8.
+cmd = strtok(input, " ");
+
+9.
+my_argv[0] = cmd;
+int i = 1;
+char* res = strtok(NULL, " ");
+while (res != NULL && i <= max_args) {
+    my_argv[i] = res;
+    i++;
+    res = strtok(NULL, " ");
+}
+my_argv[i] = NULL;
+
+10.
+Enter a command: ls -l
+total 96
+-rw-r--r--  1 kaysar  staff   5844 Oct 27 20:26 README.md
+-rwxr-xr-x@ 1 kaysar  staff  33880 Oct 29 17:36 parse
+-rw-r--r--@ 1 kaysar  staff    798 Oct 29 17:02 parse.c
