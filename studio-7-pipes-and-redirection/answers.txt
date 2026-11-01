@@ -1,0 +1,53 @@
+1.
+print.c:
+#include <stdio.h>
+
+int main() {
+    printf("Hello from Program 1\n");
+    return 0;
+}
+
+program2.c:
+#include <stdio.h>
+
+int main() {
+    char input[256];
+    while (1) {
+        if (fgets(input, sizeof(input), stdin) == NULL) {
+            break;
+        }
+        printf("Program 2 got: %s\n", input);
+    }
+    return 0;
+}
+
+2.
+Hello from Program 1
+hello
+Program 2 got: hello
+(program doesn't end, had to use Ctrl+C)
+
+3. fd[0] is the read end of the pipe and fd[1] is the write end.
+
+4. The second argument (newfd) is the one that gets closed and replaced
+with a copy of the first argument (oldfd).
+
+5.
+In child 1: dup2(fd[1], STDOUT_FILENO);
+In child 2: dup2(fd[0], STDIN_FILENO);
+
+6.
+Program 2 got: Hello from Program 1
+
+(program doesn't end, had to use Ctrl+C)
+
+7.
+Program 2 got: Hello from Program 1
+(program ends on its own now)
+
+8. One advantage is that programs don't have to be rewritten to work
+together. Program 1 and Program 2 were never written to talk to each
+other, but the OS can connect them anyway. Another advantage is that the
+same program works with any input or output, like a file, the keyboard,
+another program, or a network connection, so it's more reusable and you
+can chain small programs together like ls | grep in the shell.
