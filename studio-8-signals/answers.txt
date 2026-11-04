@@ -1,0 +1,82 @@
+1.
+Sleeper's PID is: 28839
+Slept for 0 iterations!
+Slept for 1 iterations!
+Slept for 2 iterations!
+Slept for 3 iterations!
+^C
+
+2. SIGINT has the numeric value 2. The comment is "interrupt program"
+(default action: terminate process).
+
+3. The sleeper process was killed, the same as when pressing CTRL-C.
+Sleeper's PID is: 29196
+Slept for 0 iterations!
+Slept for 1 iterations!
+Slept for 2 iterations!
+Slept for 3 iterations!
+Slept for 4 iterations!
+Slept for 5 iterations!
+Slept for 6 iterations!
+Slept for 7 iterations!
+Slept for 8 iterations!
+Slept for 9 iterations!
+Slept for 10 iterations!
+Slept for 11 iterations!
+Slept for 12 iterations!
+
+4. I picked SIGTERM (15). The sleeper process was terminated.
+Sleeper's PID is: 29535
+Slept for 0 iterations!
+Slept for 1 iterations!
+Slept for 2 iterations!
+Slept for 3 iterations!
+Slept for 4 iterations!
+Slept for 5 iterations!
+Slept for 6 iterations!
+Slept for 7 iterations!
+Slept for 8 iterations!
+Slept for 9 iterations!
+Slept for 10 iterations!
+Slept for 11 iterations!
+Slept for 12 iterations!
+Slept for 13 iterations!
+Slept for 14 iterations!
+Slept for 15 iterations!
+zsh: terminated  ./sleep
+
+5. Both the sleeper and the caller terminate. The caller did not print
+its success message, because CTRL-C sends SIGINT to every process in the
+foreground process group, so the caller is killed too.
+
+6.
+#include <signal.h>
+
+void handle_sigint( int signum ){
+	printf("Caller is ignoring SIGINT (signal %d)\n", signum);
+}
+
+int main( int argc, char* argv[] ){
+	...
+	signal( SIGINT, handle_sigint );
+	...
+}
+
+7.
+Forking sleeper...
+Waiting for sleeper 29914...
+Sleeper's PID is: 29914
+Slept for 0 iterations!
+Slept for 1 iterations!
+Slept for 2 iterations!
+Slept for 3 iterations!
+Slept for 4 iterations!
+Slept for 5 iterations!
+Slept for 6 iterations!
+Slept for 7 iterations!
+^CCaller is ignoring SIGINT (signal 2)
+Parent finished waiting and returned successfully!
+
+8. A server could catch SIGTERM when the system is shutting down, so it
+can save its data and close its connections cleanly before exiting
+instead of just dying in the middle of something.

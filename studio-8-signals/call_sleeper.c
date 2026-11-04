@@ -1,22 +1,28 @@
-//A simple program that fork()s and exec()s the ./sleep program
+#include <unistd.h>
+#include <stdlib.h>
+#include <stdio.h>
+#include <signal.h>
+#include <sys/wait.h>
 
-#include <unistd.h> //fork(), execvp(), perror(), waidpid() 
-#include <stdlib.h> //For exit()
-#include <stdio.h> //For printf()
+void handle_sigint( int signum ){
+	printf("Caller is ignoring SIGINT (signal %d)\n", signum);
+}
 
 int main( int argc, char* argv[] ){
 
 	pid_t ret;
 
-	printf("Forking sleeper...\n");	
+	signal( SIGINT, handle_sigint );
+
+	printf("Forking sleeper...\n");
 
 	ret = fork();
 	if( ret == -1 ){
 		perror("Could not fork");
 		exit(-1);
-	} 
+	}
 
-	if( ret == 0 ){ //Child
+	if( ret == 0 ){
 		int exec_ret;
 		char* cmd = "./sleep";
 		char* myargv[] = {"sleep", NULL};
@@ -25,16 +31,12 @@ int main( int argc, char* argv[] ){
 			perror("Error calling execvp");
 			exit(-1);
 		}
-
-
 	}
 
-	//Parent
 	printf("Waiting for sleeper %d...\n", ret);
 	waitpid( ret, NULL, 0 );
 
 	printf("Parent finished waiting and returned successfully!\n");
-
 
 	return 0;
 }
