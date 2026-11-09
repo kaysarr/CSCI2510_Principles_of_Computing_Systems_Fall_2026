@@ -1,0 +1,8 @@
+1. I don't know of any bugs. Some things I decided on my own since the
+   spec didn't say: commands with more than 15 arguments or lines over
+   256 characters print an error instead of running, "cd" by itself
+   goes to the home directory, and using cd inside a pipeline gives an
+   error since it's supposed to be on its own line.
+
+2. I did the 5% extra credit. The prompt shows the current directory
+   after the home directory, like slush|dir1/dir2>
