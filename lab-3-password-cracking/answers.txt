@@ -1,0 +1,81 @@
+Lab 3: Brute Force Password Cracking
+Name: Kaysar Adde
+
+1. Name
+   Kaysar Adde
+
+2. Four-letter password for target 'abccBcrPOxnLU':
+   pass
+
+3. Five-letter password for target 'xyxMB6gxuiBZg':
+   ferry
+
+4. Time to search the full five-letter space (target 'nomatchingpass') with one thread:
+   55.49 seconds
+
+5. Same search with more threads:
+   1  thread  -> 55.49 s
+   2  threads -> 28.07 s
+   4  threads -> 28.29 s
+   8  threads -> 27.91 s
+   13 threads -> 27.73 s
+   26 threads -> 27.87 s
+
+6. Hash rate (number of hashes divided by the time).
+   Total hashes checked = 26^1 + 26^2 + 26^3 + 26^4 + 26^5 = 12,356,630
+   1  thread  -> ~223,000 hashes/sec
+   2  threads -> ~440,000 hashes/sec
+   4  threads -> ~437,000 hashes/sec
+   8  threads -> ~443,000 hashes/sec
+   13 threads -> ~446,000 hashes/sec
+   26 threads -> ~443,000 hashes/sec
+
+7. What the results mean:
+   With 1 thread it took about 55 seconds. With 2 threads it dropped to
+   about 28 seconds, so basically twice as fast. After that, adding more
+   threads did not help. 4, 8, 13, and 26 threads all stayed around 28
+   seconds. This is because the computer I used only has 2 cores. Only 2
+   threads can really run at the same time, so the extra threads just take
+   turns on those same 2 cores. So more threads only speeds things up until
+   you hit the number of cores the computer has.
+
+8. Highest hash rate I got:
+   About 446,000 hashes/sec (with 13 threads).
+
+9. Total hashes to search each keyspace (26^n):
+   length 1:              26
+   length 2:             676
+   length 3:          17,576
+   length 4:         456,976
+   length 5:      11,881,376
+   length 6:     308,915,776
+   length 7:   8,031,810,176
+   length 8: 208,827,064,576
+
+10. Time to search each keyspace at about 446,000 hashes/sec:
+   length 1:  0.0001 sec
+   length 2:  0.0015 sec
+   length 3:  0.04 sec
+   length 4:  1.0 sec
+   length 5:  26.6 sec
+   length 6:  11.5 min
+   length 7:  5.0 hours
+   length 8:  5.4 days
+   Each extra letter makes the search 26 times bigger, so the time goes up
+   really fast. Adding just one more character makes a password about 26x
+   harder to crack.
+
+11. Length-6 passwords with bigger character sets, at about 446,000 hashes/sec:
+   lowercase only (26 chars):      308,915,776  ->  11.5 min
+   + uppercase    (52 chars):   19,770,609,664  ->  12.3 hours
+   + digits       (62 chars):   56,800,235,584  ->  1.5 days
+   + symbols      (93 chars):  646,990,183,449  ->  16.8 days
+   Allowing more types of characters makes a password a lot harder to crack
+   even when the length stays the same.
+
+12. Known bugs or things that don't match the spec:
+   None that I know of. It takes the threads, keysize, and target, grabs the
+   salt from the first two characters, checks every length from 1 up to
+   keysize, uses crypt_r so the threads are safe, prints the password and
+   stops as soon as it finds a match, and prints nothing if there is no match.
+
